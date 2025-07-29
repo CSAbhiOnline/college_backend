@@ -10,5 +10,5 @@ fun Application.module() {
     configureSerialization()
     configureHTTP()
     configureRouting()
-    //Databasefactory.init()
+    Databasefactory.init()
 }

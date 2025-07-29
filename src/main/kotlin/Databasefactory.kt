@@ -4,18 +4,34 @@ import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import io.github.cdimascio.dotenv.dotenv
 import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.transactions.transaction
+import com.example.TABLES.*
 
 object Databasefactory {
 
     fun init() {
         Database.connect(createHikariDataSource())
+        transaction {
+            SchemaUtils.create(
+                Colleges,
+                CollegeCourses,
+                CoursesAndFees,
+                Placements,
+                GraduationPercentages,
+                Amenities,
+                Cutoffs,
+                Faculties
+            )
+        }
     }
 
     private fun createHikariDataSource(): HikariDataSource {
         val config = HikariConfig()
         val dotenv= dotenv()
+        config.jdbcUrl = dotenv["JDBC_URl"]
         config.driverClassName = dotenv["JDBC_DRIVER"]
-            config.jdbcUrl = dotenv["JDBC_URL"]
+
         config.username =  dotenv["DB_USER"]
         config.password =  dotenv["DB_PASSWORD"]
         config.maximumPoolSize = 7
