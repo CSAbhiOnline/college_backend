@@ -25,11 +25,11 @@ object Databasefactory {
     private fun createHikariDataSource(): HikariDataSource {
         val config = HikariConfig()
         val dotenv= dotenv()
-        config.jdbcUrl = dotenv["JDBC_URl"]
+        config.jdbcUrl = dotenv["JDBC_UR"]
         config.driverClassName = dotenv["JDBC_DRIVER"]
 
         config.username =  dotenv["DB_USER"]
-        config.password =  dotenv["DB_PASSWORD"]
+        config.password =  dotenv["DB_PASSWOR"]
         config.maximumPoolSize = 7
         config.isAutoCommit = false
         config.transactionIsolation = "TRANSACTION_REPEATABLE_READ"
