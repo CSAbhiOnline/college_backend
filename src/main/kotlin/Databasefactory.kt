@@ -5,8 +5,10 @@ import com.zaxxer.hikari.HikariDataSource
 import io.github.cdimascio.dotenv.dotenv
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
-import com.example.TABLES.*
+import com.example.TABLES.CollegeTable
+import com.example.TABLES.UserTable
 
 object Databasefactory {
 
@@ -14,14 +16,8 @@ object Databasefactory {
         Database.connect(createHikariDataSource())
         transaction {
             SchemaUtils.create(
-                Colleges,
-                CollegeCourses,
-                CoursesAndFees,
-                Placements,
-                GraduationPercentages,
-                Amenities,
-                Cutoffs,
-                Faculties
+                CollegeTable,
+                UserTable
             )
         }
     }
@@ -40,5 +36,8 @@ object Databasefactory {
         config.validate()
         return HikariDataSource(config)
     }
+
+    suspend fun <T> dbQuery(block: suspend () -> T): T =
+        newSuspendedTransaction { block() }
 
 }

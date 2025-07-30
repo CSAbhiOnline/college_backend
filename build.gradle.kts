@@ -22,9 +22,9 @@ dependencies {
     implementation(libs.ktor.server.content.negotiation)
     implementation(libs.exposed.core)
     implementation(libs.exposed.jdbc)
-    implementation(libs.h2)
-    implementation(libs.ktor.server.openapi)
-    implementation(libs.ktor.server.swagger)
+    //implementation(libs.h2)
+    //implementation(libs.ktor.server.openapi)
+    //implementation(libs.ktor.server.swagger)
     implementation(libs.postgresql)
     implementation(libs.ktor.server.cio)
     implementation(libs.logback.classic)
@@ -34,6 +34,8 @@ dependencies {
 
     implementation("com.zaxxer:HikariCP:6.3.2")
     implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
+    //implementation("io.swagger.codegen.v3:swagger-codegen-generators:1.0.36")
+    implementation("io.ktor:ktor-server-cors:3.2.2")
 
 
 }
