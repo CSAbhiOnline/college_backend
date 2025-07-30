@@ -5,13 +5,27 @@ services:
     container_name: college_backend_db
     restart: always
     environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: college_postgres_db
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=college_postgres_db
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: college_backend_app
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    environment:
+      - JDBC_URL=jdbc:postgresql://db:5432/college_postgres_db
+      - JDBC_DRIVER=org.postgresql.Driver
 
   adminer:
     image: adminer

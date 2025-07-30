@@ -16,6 +16,19 @@ repositories {
     mavenCentral()
 }
 
+tasks.create("buildUberJar", type = Jar::class) {
+    manifest {
+        attributes["Main-Class"] = "io.ktor.server.cio.EngineMain"
+    }
+    archiveFileName.set("college_backend-all.jar")
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from(sourceSets.main.get().output)
+    dependsOn(configurations.runtimeClasspath)
+    from({
+        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
+    })
+}
+
 dependencies {
     implementation(libs.ktor.server.core)
     implementation(libs.ktor.serialization.kotlinx.json)
